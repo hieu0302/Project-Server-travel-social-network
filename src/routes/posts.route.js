@@ -5,6 +5,7 @@ import postValidator from "../validation/posts.validation.js";
 
 const router = express();
 
+router.get("/get-paging", PostsController.getPaging)
 router.get("/", PostsController.getAllPost);
 router.post(
   "/",
@@ -12,4 +13,6 @@ router.post(
   PostsController.createPost
 );
 
+router.get("/published-posts", PostsController.getPublishedPosts);
+router.get('/saved-posts',PostsController.getSavedPosts);
 export default router;
