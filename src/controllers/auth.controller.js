@@ -70,7 +70,7 @@ const login = asyncHandler(async (req, res) => {
   const payload = {
     id: existingUser._id,
     email: existingUser.email,
-    fullname: existingUser.firstName + existingUser.lastName,
+    username: existingUser.username,
   };
 
   const SECRET_KEY = process.env.SECRET_KEY;
