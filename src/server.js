@@ -11,6 +11,7 @@ const whitelist = [
   "http://localhost:5173",
   "http://localhost:3001",
   "https://trip-social.onrender.com",
+  "http://localhost:10000",
 ];
 
 const corsOptions = {
