@@ -7,6 +7,7 @@ if (!fs.existsSync("uploads")) {
   fs.mkdirSync("uploads");
 }
 
+
 const multerConfig = multer.diskStorage({
   destination: (req, file, cb) => {
     // Chọn thư mục luu trữ tạm trên server

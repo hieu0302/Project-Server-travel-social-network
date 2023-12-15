@@ -5,7 +5,7 @@ import { ObjectId } from "mongodb";
 import { db } from "../../config/database.js";
 
 const signup = asyncHandler(async (req, res) => {
-  const { email, password, username } = req.body;
+  const { email, password, username, avatar } = req.body;
 
   // 1. Check duplicate
   const existingUser = await db.users.findOne({ email });
@@ -22,8 +22,8 @@ const signup = asyncHandler(async (req, res) => {
   const newUser = {
     email,
     username,
+    avatar,
 
-    likes: [],
     password: hashedPassword,
     createdAt: new Date(),
     updatedAt: new Date(),

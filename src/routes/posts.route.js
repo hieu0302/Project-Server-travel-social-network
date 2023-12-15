@@ -11,5 +11,6 @@ router.post(
   validateMdw(postValidator.postSchema),
   PostsController.createPost
 );
+router.delete("/:id", PostsController.deleteByID);
 
 export default router;

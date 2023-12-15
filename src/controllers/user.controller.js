@@ -1,5 +1,5 @@
 import { ObjectId } from "mongodb";
-import { db } from "../config/database.js";
+import { db } from "../../config/database.js";
 import asyncHandler from "express-async-handler";
 import bcrypt from "bcryptjs";
 

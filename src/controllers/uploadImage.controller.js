@@ -28,8 +28,28 @@ const uploadImage = asyncHandler(async (req, res) => {
   });
 });
 
+const uploadAvatar = asyncHandler(async (req, res) => {
+  const file = req.file;
+  // const user = req.user;
+
+  const { url } = await CloudinaryService.uploadSingleFile(file.path);
+
+  if (!url) {
+    res.status(400);
+    throw new Error("Upload failed");
+  }
+  await db.avatar.insertOne({ url });
+
+  res.json({
+    message: "Upload avatar successfully",
+    // userId: user.id,
+    url,
+  });
+});
+
 const MediaController = {
   uploadImage,
+  uploadAvatar,
 };
 
 export default MediaController;

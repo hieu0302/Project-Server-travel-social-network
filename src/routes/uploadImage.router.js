@@ -12,4 +12,10 @@ router.post(
   UploadImageController.uploadImage
 );
 
+router.post(
+  "/avatar",
+  uploadMdw.single("image"),
+  UploadImageController.uploadAvatar
+);
+
 export default router;
