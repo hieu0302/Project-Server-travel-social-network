@@ -33,10 +33,32 @@ const deleteByID = asyncHandler(async (req, res) => {
   await db.posts.deleteOne({ _id: new ObjectId(id) });
   res.json({ message: "Đã xoá bài viết" });
 });
+const update = asyncHandler(async (req, res) => {
+  let postID = req.params.id;
+  const { title, content } = req.body;
+
+  const post = await db.posts.findOne({ _id: new ObjectId(postID) });
+  if (!post) {
+    return res.status(400).send("Không có bài viết này");
+  } else {
+    const update = await db.posts.updateOne(
+      { _id: new ObjectId(postID) },
+      { $set: { title, content } }
+    );
+    console.log(update);
+    if (update.modifiedCount > 0) {
+      res.json({ message: "Cập nhật thành công!" });
+    } else {
+      res.status(500).send("Lỗi cập nhật!");
+    }
+  }
+});
+
 const PostsController = {
   getAllPost,
   createPost,
   deleteByID,
+  update,
 };
 
 export default PostsController;
