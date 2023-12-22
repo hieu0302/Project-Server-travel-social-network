@@ -13,6 +13,9 @@ const connectToDatabase = async () => {
     const database = mongoClient.db(DATABASE);
 
     db.posts = database.collection("posts");
+    db.users = database.collection("users");
+    db.images = database.collection("image");
+    db.avatar = database.collection("avatar");
   } catch (error) {
     console.error("Connect to DB failed: ", error);
     process.exit(1);
