@@ -35,15 +35,16 @@ const deleteByID = asyncHandler(async (req, res) => {
 });
 const update = asyncHandler(async (req, res) => {
   let postID = req.params.id;
-  const { title, content } = req.body;
+  const { title, content, image, location, startDay, endDay } = req.body;
 
   const post = await db.posts.findOne({ _id: new ObjectId(postID) });
   if (!post) {
     return res.status(400).send("Không có bài viết này");
   } else {
+    console.log(req.body);
     const update = await db.posts.updateOne(
       { _id: new ObjectId(postID) },
-      { $set: { title, content } }
+      { $set: { title, content, image, location, startDay, endDay } }
     );
     console.log(update);
     if (update.modifiedCount > 0) {
