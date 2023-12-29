@@ -23,7 +23,6 @@ const signup = asyncHandler(async (req, res) => {
     email,
     username,
     avatar,
-
     password: hashedPassword,
     createdAt: new Date(),
     updatedAt: new Date(),
