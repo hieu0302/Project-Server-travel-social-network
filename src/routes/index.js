@@ -5,6 +5,7 @@ import uploadImage from "./uploadImage.router.js";
 import userRouter from "./user.router.js";
 import comment from "./comment.route.js";
 import like from "./like.route.js";
+import album from "./album.route.js";
 
 const router = express.Router();
 
@@ -14,5 +15,6 @@ router.use("/upload", uploadImage);
 router.use("/user", userRouter);
 router.use("/comment", comment);
 router.use("/like", like);
+router.use("/album", album);
 
 export default router;
