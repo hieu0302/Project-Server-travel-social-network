@@ -39,10 +39,13 @@ const createPost = asyncHandler(async (req, res) => {
     createdAt: new Date(),
   };
 
-  await db.posts.insertOne(newPost);
+  const result = await db.posts.insertOne(newPost);
+  const newPostId = result.insertedId;
+  const newPostData = await db.posts.findOne({ _id: newPostId });
 
   res.status(201).json({
     message: "Created successfully",
+    newPostData,
   });
 });
 

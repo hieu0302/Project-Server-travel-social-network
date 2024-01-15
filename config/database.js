@@ -19,6 +19,8 @@ const connectToDatabase = async () => {
     db.comment = database.collection("comment");
     db.like = database.collection("like");
     db.album = database.collection("album");
+    db.notify = database.collection("notify");
+    db.pendingNotify = database.collection("pendingNotify");
 
   } catch (error) {
     console.error("Connect to DB failed: ", error);

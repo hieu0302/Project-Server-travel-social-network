@@ -6,6 +6,8 @@ import userRouter from "./user.router.js";
 import comment from "./comment.route.js";
 import like from "./like.route.js";
 import album from "./album.route.js";
+import notify from "./notify.route.js";
+import pendingNotify from "./pendingNotify.route.js";
 
 const router = express.Router();
 
@@ -16,5 +18,7 @@ router.use("/user", userRouter);
 router.use("/comment", comment);
 router.use("/like", like);
 router.use("/album", album);
+router.use("/notify", notify);
+router.use("/pendingNotify", pendingNotify);
 
 export default router;

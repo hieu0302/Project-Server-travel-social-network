@@ -8,10 +8,13 @@ const createAlbum = asyncHandler(async (req, res) => {
     createdAt: new Date(),
   };
 
-  await db.album.insertOne(newAlbum);
+  const result = await db.album.insertOne(newAlbum);
+  const newAlbumId = result.insertedId;
+  const newAlbumData = await db.album.findOne({ _id: newAlbumId });
 
   res.status(201).json({
     message: "Tạo album ảnh thành công",
+    newAlbumData,
   });
 });
 
