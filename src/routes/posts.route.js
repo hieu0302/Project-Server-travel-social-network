@@ -16,6 +16,6 @@ router.post(
 );
 router.delete("/:id", PostsController.deleteByID);
 
-router.get('/saved-posts/:userId', authMiddleware,PostsController.getSavedPosts);
+router.get('/saved-posts', authMiddleware,PostsController.getSavedPosts);
 router.put('/:id/save', authMiddleware,PostsController.putSavedPosts)
 export default router;

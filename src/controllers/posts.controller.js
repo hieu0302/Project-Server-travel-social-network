@@ -6,7 +6,7 @@ const getAllPost = asyncHandler(async (req, res) => {
   const totalPost = await db.posts.find().sort({ createAt: -1 }).toArray();
 
   res.json({ data: totalPost });
-}); 
+});
 
 const getPostByUserId = asyncHandler(async (req, res) => {
   const userId = req.user.id; // Lấy userId từ request parameters
@@ -34,11 +34,11 @@ const createPost = asyncHandler(async (req, res) => {
 
 const getSavedPosts = asyncHandler(async (req, res) => {
   try {
-    const userId = req.user.id; 
-
+    const userId = req.user.id;
+    const user = await db.users.findOne({_id: new ObjectId(userId)})
     // Truy vấn cơ sở dữ liệu để lấy danh sách các bài viết đã lưu của userId cụ thể
-    const savedPosts = await db.posts.find({ userId: userId , isSaved:true }).sort({ createAt: -1 }).toArray();;
-
+    const savedPosts = await db.posts.find({_id: {$in: user?.savePost?.map(item => new ObjectId(item))}}).sort({ createAt: -1 }).toArray();;
+    console.log(savedPosts)
     res.json(savedPosts);
   } catch (error) {
     console.error(error);
@@ -48,19 +48,26 @@ const getSavedPosts = asyncHandler(async (req, res) => {
 
 const putSavedPosts = asyncHandler(async (req, res) => {
   try {
+    const user = req.user?.id
     const _id = req.params.id; // Thay thế postId thành _id
 
-    const post = await db.posts.findOne({ _id: new ObjectId(_id) });
+    const getUserSavedPost = await db.users.findOne({ _id: new ObjectId(user) })
+    let savedPost = []
 
-    if (!post) {
-      return res.status(404).json({ error: 'Post not found' });
+
+    const checkExistSavedPost = getUserSavedPost?.savePost?.find(item => item == _id)
+    if (!getUserSavedPost?.savePost) {
+      savedPost = [_id]
     }
-   
-    await db.posts.updateOne({ _id: new ObjectId(_id) }, { $set: { isSaved: !post.isSaved } });
+    else if (!checkExistSavedPost) {
+      savedPost = [...getUserSavedPost.savePost, _id]
+    } else {
+      savedPost = getUserSavedPost.savePost?.filter(item => item != _id)
+    }
 
-    const updatedPost = await db.posts.findOne({ _id: new ObjectId(_id) }); // Lấy bài viết đã được cập nhật
+    await db.users.updateOne({ _id: new ObjectId(user) }, { $set: { savePost: savedPost } })
 
-    res.json({ isSaved: !updatedPost.isSaved });
+    return res.status(200).json({ postId: _id })
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
@@ -70,12 +77,12 @@ const putSavedPosts = asyncHandler(async (req, res) => {
 
 const getPaging = async (req, res) => {
   try {
-    const pageSize = req.query.pageSize 
+    const pageSize = req.query.pageSize
     const pageIndex = req.query.pageIndex
 
     const result = await db.posts.find().skip(pageSize * pageIndex - pageSize).limit(pageSize)
 
-    return res.status(200).json({result})
+    return res.status(200).json({ result })
   } catch (error) {
     console.log(error)
     return res.status(500).json(error)

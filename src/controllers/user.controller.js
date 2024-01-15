@@ -16,7 +16,7 @@ const getOne = asyncHandler(async (req, res) => {
 });
 
 const update = asyncHandler(async (req, res) => {
-  const { id } = req.params;
+  const { id } = req.user;
 
   const existingUser = await db.users.findOne({ _id: new ObjectId(id) });
 
