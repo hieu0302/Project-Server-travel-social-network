@@ -14,7 +14,7 @@ const router = express.Router();
 router.use("/posts", postsRouter);
 router.use("/auth", authRouter);
 router.use("/upload", uploadImage);
-router.use("/user", userRouter);
+router.use("/users", userRouter);
 router.use("/comment", comment);
 router.use("/like", like);
 router.use("/album", album);

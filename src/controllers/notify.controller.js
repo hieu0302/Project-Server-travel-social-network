@@ -24,7 +24,7 @@ const getNotify = asyncHandler(async (req, res) => {
   const sortValue = sort === "desc" ? -1 : 1;
 
   const notifys = await db.notify
-    .find({ idUser: idUser })
+    .find({ idReceiver: idUser })
     .sort({ createdAt: sortValue })
     .toArray();
 

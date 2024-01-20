@@ -4,7 +4,8 @@ import authMiddleware from "../middlewares/auth.mdw.js";
 
 const router = express();
 
-router.get("/:id", UserController.getOne);
+router.get("/search-user", UserController.getInfoUserBySearch);
+
 router.put("/:id", authMiddleware, UserController.update);
 router.get("/:id/likes", authMiddleware, UserController.getLikes);
 router.put(
@@ -12,5 +13,5 @@ router.put(
   authMiddleware,
   UserController.changePassword
 );
-
+router.get("/:id", UserController.getOne);
 export default router;

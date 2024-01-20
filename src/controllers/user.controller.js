@@ -102,11 +102,33 @@ const changePassword = asyncHandler(async (req, res) => {
   res.json({ message: "Update password successfully" });
 });
 
+const getInfoUserBySearch = asyncHandler(async (req, res) => {
+  const { q } = req.query;
+
+  console.log("ABC", q);
+
+  const results = await db.users
+    .find(
+      {
+        username: { $regex: q },
+      },
+      {
+        projection: { username: 1, avatar: 1 },
+      }
+    )
+    .toArray();
+
+  res.json({
+    data: results || [],
+  });
+});
+
 const UserController = {
   getOne,
   update,
   getLikes,
   changePassword,
+  getInfoUserBySearch,
 };
 
 export default UserController;
