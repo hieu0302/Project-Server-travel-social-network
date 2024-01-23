@@ -8,6 +8,8 @@ import like from "./like.route.js";
 import album from "./album.route.js";
 import notify from "./notify.route.js";
 import pendingNotify from "./pendingNotify.route.js";
+import chatRoom from "./chatRoom.route.js";
+import message from "./textChat.route.js";
 
 const router = express.Router();
 
@@ -20,5 +22,7 @@ router.use("/like", like);
 router.use("/album", album);
 router.use("/notify", notify);
 router.use("/pendingNotify", pendingNotify);
+router.use("/chat-room", chatRoom);
+router.use("/message", message);
 
 export default router;

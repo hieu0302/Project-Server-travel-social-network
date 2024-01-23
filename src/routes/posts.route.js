@@ -5,6 +5,7 @@ import postValidator from "../validation/posts.validatior.js";
 
 const router = express();
 
+router.put("/:id", PostsController.update);
 router.get("/", PostsController.getAllPost);
 router.post(
   "/",

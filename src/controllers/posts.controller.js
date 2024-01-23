@@ -62,10 +62,33 @@ const deleteByID = asyncHandler(async (req, res) => {
   res.json({ message: "Đã xoá bài viết" });
 });
 
+const update = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const existingPost = await db.posts.findOne({ _id: new ObjectId(id) });
+
+  if (!existingPost) {
+    res.status(400);
+    throw new Error("Post not found");
+  }
+
+  const { _id, ...rest } = req.body;
+
+  const updateData = {
+    ...existingPost,
+    ...rest,
+    updatedAt: new Date(),
+  };
+  await db.posts.updateOne({ _id: new ObjectId(id) }, { $set: updateData });
+
+  res.json({ message: "Cập nhật thành công" });
+});
+
 const PostsController = {
   getAllPost,
   createPost,
   deleteByID,
+  update,
 };
 
 export default PostsController;

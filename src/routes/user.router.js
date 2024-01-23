@@ -14,4 +14,5 @@ router.put(
   UserController.changePassword
 );
 router.get("/:id", UserController.getOne);
+
 export default router;

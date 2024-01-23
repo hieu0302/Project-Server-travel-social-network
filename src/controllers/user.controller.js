@@ -5,7 +5,14 @@ import bcrypt from "bcryptjs";
 
 const getOne = asyncHandler(async (req, res) => {
   const { id } = req.params;
-  const existingUser = await db.users.findOne({ _id: new ObjectId(id) });
+  const existingUser = await db.users.findOne(
+    { _id: new ObjectId(id) },
+    {
+      projection: {
+        password: 0,
+      },
+    }
+  );
 
   if (!existingUser) {
     res.status(400);
@@ -123,12 +130,23 @@ const getInfoUserBySearch = asyncHandler(async (req, res) => {
   });
 });
 
+const getInfoById = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const result = await db.users.findOne({ _id: ObjectId(id) });
+
+  res.json({
+    result,
+  });
+});
+
 const UserController = {
   getOne,
   update,
   getLikes,
   changePassword,
   getInfoUserBySearch,
+  getInfoById,
 };
 
 export default UserController;

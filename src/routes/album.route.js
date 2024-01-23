@@ -5,6 +5,7 @@ import albumValidator from "../validation/album.validtior.js";
 
 const router = express();
 
+router.put("/:id", AlbumController.update);
 router.get("/", AlbumController.getAllAlbum);
 router.post(
   "/",

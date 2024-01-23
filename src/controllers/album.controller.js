@@ -61,10 +61,33 @@ const deleteByID = asyncHandler(async (req, res) => {
   res.json({ message: "Đã xoá bài viết" });
 });
 
+const update = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const existingAlbum = await db.album.findOne({ _id: new ObjectId(id) });
+
+  if (!existingAlbum) {
+    res.status(400);
+    throw new Error("Post not found");
+  }
+
+  const { _id, ...rest } = req.body;
+
+  const updateData = {
+    ...existingAlbum,
+    ...rest,
+    updatedAt: new Date(),
+  };
+  await db.album.updateOne({ _id: new ObjectId(id) }, { $set: updateData });
+
+  res.json({ message: "Cập nhật thành công" });
+});
+
 const AlbumController = {
   getAllAlbum,
   createAlbum,
   deleteByID,
+  update,
 };
 
 export default AlbumController;
