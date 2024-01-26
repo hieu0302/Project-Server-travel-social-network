@@ -61,11 +61,33 @@ const deleteByID = asyncHandler(async (req, res) => {
   await db.posts.deleteOne({ _id: new ObjectId(id) });
   res.json({ message: "Đã xoá bài viết" });
 });
+const getPostByUserId = asyncHandler(async (req, res) => {
+  const userId = req.user.id; // Lấy userId từ request parameters
 
+  // Sử dụng userId để tìm các bài đăng của người dùng đó
+  const userPosts = await db.posts.find({ userId: userId }).sort({ createAt: -1 }).toArray();
+
+  res.json({ data: userPosts });
+});
+const getPaging = async (req, res) => {
+  try {
+    const pageSize = req.query.pageSize
+    const pageIndex = req.query.pageIndex
+
+    const result = await db.posts.find().skip(pageSize * pageIndex - pageSize).limit(pageSize)
+
+    return res.status(200).json({ result })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json(error)
+  }
+};
 const PostsController = {
   getAllPost,
   createPost,
   deleteByID,
+  getPostByUserId,
+  getPaging,
 };
 
 export default PostsController;

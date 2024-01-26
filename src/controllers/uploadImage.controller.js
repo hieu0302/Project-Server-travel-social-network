@@ -46,10 +46,29 @@ const uploadAvatar = asyncHandler(async (req, res) => {
     url,
   });
 });
+const updateAvatar = asyncHandler(async (req, res) => {
+  const file = req.file;
+  // const user = req.user;
+  if (!file) {
+    res.status(400);
+    throw new Error("No file uploaded");
+  }
+  const { url } = await CloudinaryService.updateSingleFile(file.path);
+  if (!url) {
+    res.status(400);
+    throw new Error("Upload failed");
+  }
+  res.json({
+    message: "Avatar updated successfully",
+    url,
+  });
+});
+
 
 const MediaController = {
   uploadImage,
   uploadAvatar,
+  updateAvatar,
 };
 
 export default MediaController;
