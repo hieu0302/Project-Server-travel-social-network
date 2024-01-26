@@ -40,11 +40,13 @@ const deleteNotify = asyncHandler(async (req, res) => {
 
   if (!existingNotify) {
     res.status(400);
-    throw new Error("bài viết không tồn tại");
+    throw new Error("Thông báo không tồn tại");
   }
   await db.notify.deleteOne({ _id: new ObjectId(id) });
   res.json({ message: "Đã xoá thông báo" });
 });
+
+
 
 const NotifyController = {
   createNotify,

@@ -24,7 +24,7 @@ const getMessage = asyncHandler(async (req, res) => {
   const sortValue = sort === "desc" ? -1 : 1;
 
   const messageData = await db.message
-    .find({ roomChatId: idRoomChat })
+    .find({ idRoomChat: idRoomChat })
     .sort({ createdAt: sortValue })
     .toArray();
 

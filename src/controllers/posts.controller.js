@@ -84,11 +84,21 @@ const update = asyncHandler(async (req, res) => {
   res.json({ message: "Cập nhật thành công" });
 });
 
+const getPostsBySearch = asyncHandler(async (req, res) => {
+  const { q } = req.query;
+
+  const result = await db.posts.find({ title: { $regex: q } }).toArray();
+
+  res.json({
+    data: result || [],
+  });
+});
 const PostsController = {
   getAllPost,
   createPost,
   deleteByID,
   update,
+  getPostsBySearch,
 };
 
 export default PostsController;

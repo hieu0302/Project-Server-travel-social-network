@@ -112,8 +112,6 @@ const changePassword = asyncHandler(async (req, res) => {
 const getInfoUserBySearch = asyncHandler(async (req, res) => {
   const { q } = req.query;
 
-  console.log("ABC", q);
-
   const results = await db.users
     .find(
       {

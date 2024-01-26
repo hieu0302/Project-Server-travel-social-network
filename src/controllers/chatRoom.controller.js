@@ -24,7 +24,7 @@ const getChatRoom = asyncHandler(async (req, res) => {
   const sortValue = sort === "desc" ? -1 : 1;
 
   const chatRoom = await db.chatRoom
-    .find({ "member.memberId": idUser })
+    .find({ "member.idUser": idUser })
     .sort({ createdAt: sortValue })
     .toArray();
 

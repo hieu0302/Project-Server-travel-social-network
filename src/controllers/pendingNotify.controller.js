@@ -28,13 +28,31 @@ const getNotifyByUserId = asyncHandler(async (req, res) => {
 const deletePendingNotify = asyncHandler(async (req, res) => {
   const { id } = req.params;
 
-  const existingNotify = await db.pendingNotify.findOne({ idReceiver: id });
+  const existingNotify = await db.pendingNotify.findOne({
+    idReceiver: id,
+  });
 
   if (!existingNotify) {
     res.status(400);
     throw new Error("Không có thông báo chờ");
   }
-  await db.pendingNotify.deleteMany({ idReceiver: id });
+  await db.pendingNotify.deleteMany({
+    $or: [{ type: "like" }, { type: "comment" }],
+    idReceiver: id,
+  });
+  res.json({ message: "Đã xoá thông báo" });
+});
+
+const deleteNotifyByIdRoomChat = asyncHandler(async (req, res) => {
+  const { id } = req.params;
+
+  const existingNotify = await db.pendingNotify.findOne({ idRoomChat: id });
+
+  if (!existingNotify) {
+    res.status(400);
+    throw new Error(" thông báo không tồn tại");
+  }
+  await db.pendingNotify.deleteMany({ idRoomChat: id });
   res.json({ message: "Đã xoá thông báo" });
 });
 
@@ -42,6 +60,7 @@ const PendingNotifyController = {
   createPendingNotify,
   getNotifyByUserId,
   deletePendingNotify,
+  deleteNotifyByIdRoomChat,
 };
 
 export default PendingNotifyController;
